@@ -43,7 +43,6 @@ export type UserType = {
 
 const Github = () => {
     const [selectedUser, setSelectedUser] = useState<SearchUser | null>(null)
-    const [userDetails, setUserDetails] = useState<UserType | null>(null)
     const [searchTerm, setSearchTerm] = useState('it-kamasutra')
 
     useEffect(() => {
@@ -66,7 +65,6 @@ const Github = () => {
                     setSearchTerm(fixedValue)
                 }}/>
                 <button onClick={() => {
-                    debugger;
                     setSearchTerm('it-kamasutra')
                 }}>reset
                 </button>
@@ -83,7 +81,7 @@ const Github = () => {
                            onUserSelect={setSelectedUser}
                            selectedUser={selectedUser}/>
             </div>
-            <UserInfo selectedUser={selectedUser} userDetails={userDetails} setUserDetails={setUserDetails}/>
+            <UserInfo selectedUser={selectedUser} />
         </div>
 
     );

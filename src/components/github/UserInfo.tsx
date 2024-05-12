@@ -1,18 +1,18 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import s from "components/github/github.module.css";
 import {SearchUser, UserType} from "components/github/Github";
 import axios from "axios";
+import {Timer} from "components/github/Timer";
 type UserInfo = {
     selectedUser: SearchUser | null
-    userDetails: UserType | null
-    setUserDetails: (u:UserType) => void
+
 }
-export const UserInfo = ({selectedUser, userDetails, setUserDetails}: UserInfo) => {
+export const UserInfo = ({selectedUser}: UserInfo) => {
+    const [userDetails, setUserDetails] = useState<UserType | null>(null)
+
     useEffect(() => {
         console.log('Sync user details')
         if (selectedUser) {
-
-            debugger
             axios
                 .get<UserType>(`https://api.github.com/users/${selectedUser.login}`)
                 .then(res => setUserDetails(res.data))
@@ -21,12 +21,13 @@ export const UserInfo = ({selectedUser, userDetails, setUserDetails}: UserInfo) 
     }, [selectedUser]);
     return (
         <div className={s.users}>
+            <Timer userDetails={userDetails}/>
             <h2>
-                Username
+                {userDetails?.login}
             </h2>
             {selectedUser && <div>
                 <img src={userDetails?.avatar_url} alt=""/>
-                {userDetails?.login}, followers: {userDetails?.followers}
+                 followers: {userDetails?.followers}
             </div>}
         </div>
     );
